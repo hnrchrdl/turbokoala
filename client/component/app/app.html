@@ -1,0 +1,11 @@
+<navbar-side></navbar-side>
+<div class="pusher artistimage" 
+		ng-class="{pushed: appCtrl.showNav}"
+		lastfm-image artist="appCtrl.Mpd.currentsong.Artist"
+		is-active="appCtrl.getCurrentStateName() === 'app.nowplaying'">
+	<navbar-top></navbar-top>
+	<ui-view class="main"></ui-view>
+	<settings></settings>
+	<controls></controls>
+	<!-- <stream></stream> -->
+</div>

@@ -1,0 +1,24 @@
+<p>
+	<b>User Settings</b>
+	<i class="fa fa-close pull-right clickable" ng-click="settingsCtrl.Settings.active = null"></i>
+</p>
+<hr>
+
+<form ng-submit="usCtrl.save()" class="clearfix">
+	<div  ng-show="usCtrl.alert" class="alert" ng-class="usCtrl.alert.class">
+	  <a href="#" class="close" aria-label="close" ng-click="usCtrl.alert = null">&times;</a>
+	  {{usCtrl.alert.msg}}
+	</div>
+	<div class="form-group">
+		<label>Name</label>
+		<input type="text" class="form-control" name="port"  ng-model="usCtrl.me.name">
+	</div>
+		<label>Email</label>
+	<div class="form-group">
+		<input type="text" class="form-control" name="pw"  ng-model="usCtrl.me.email">
+	</div>
+	<input type="submit" class="btn btn-primary pull-right" value="Save">
+</form>
+
+<hr>
+<a class="btn btn-default btn-block" href="/logout">Logout</a>

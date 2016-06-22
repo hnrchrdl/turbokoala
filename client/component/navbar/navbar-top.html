@@ -1,0 +1,31 @@
+<div class="container-fluid">
+	<nav class="navbar-top clearfix">
+		<div class="navbar-toggler pull-left">
+			<div class="btn-wrapper">
+			  <button class="btn btn-primary" ng-click="appCtrl.toggleNav()">
+			      <i class="fa fa-navicon"></i>
+			    </button>
+			</div>
+		</div>
+		<div class="navbar-content pull-right">
+			<div class="btn-wrapper">
+			  <button class="btn btn-default settings-clicker" settings="stream"
+			            ng-class="{on: appCtrl.Stream.status === 1, off: appCtrl.Stream.status === 0 }">
+			    <i class="fa fa-headphones" ng-class="{'fa-spinner fa-spin': appCtrl.Stream.status === 2}"></i>
+			  </button>
+			</div>
+			<div class="btn-wrapper">
+			  <button class="btn btn-default settings-clicker" settings="connection"  class="btn btn-default"
+			            ng-class="{connected: appCtrl.Mpd.isConnected, offline: !appCtrl.Mpd.isConnected}">
+			      <i class="fa fa-plug"></i>
+			  </button>
+			</div>
+			<div class="btn-wrapper">
+			  <button class="btn btn-default" settings="user">
+			  	<i class="fa fa-user"></i>
+			  </button>
+			  
+			</div>
+		</div>
+	</nav>
+</div>

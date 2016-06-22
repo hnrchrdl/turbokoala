@@ -1,0 +1,28 @@
+<p>
+	<b>Audio Settings</b>
+	<i class="fa fa-close pull-right clickable" ng-click="settingsCtrl.Settings.active = null"></i>
+</p>
+
+<hr>
+
+<a role="button" class="btn btn-default pull-right" ng-click="ssCtrl.Stream.toggle()">
+	<i class="fa" ng-class="{'fa-toggle-on':ssCtrl.Stream.status !== 0, 'fa-toggle-off':ssCtrl.Stream.status === 0}"></i>
+</a>
+
+<div class="clearfix"></div>
+
+<hr>
+
+<form ng-submit="ssCtrl.save()" class="clearfix">
+	<div  ng-show="ssCtrl.alert" class="alert" ng-class="ssCtrl.alert.class">
+	  <a href="#" class="close" aria-label="close" ng-click="ssCtrl.alert = null">&times;</a>
+	  {{ssCtrl.alert.msg}}
+	</div>
+
+	<div class="form-group">
+		<label>Stream Url</label>
+		<input type="text" class="form-control" name="url" ng-model="ssCtrl.url" ng-value="ssCtrl.Stream.url">
+	</div>
+	
+	<input type="submit" class="btn btn-primary pull-right" value="Save">
+</form>

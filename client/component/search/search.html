@@ -1,0 +1,38 @@
+<div class="container-fluid search-container">
+<div class="input-searchbar">
+		<form ng-submit="searchCtrl.search(searchCtrl.input)">
+			<label for="search"><i class="fa fa-search"></i></label>
+			<input type="text" name="search" class="form-control" ng-model="searchCtrl.input" ng-focus=true>
+		</form>
+	</div>
+
+	<div class="results loading" ng-show="searchCtrl.isLoading"><i class="fa fa-spin fa-spinner"></i></div>
+	
+	<div class="results" ng-show="searchCtrl.results.artists.length > 0">
+		<h4>Artists</h4>
+		<ul class="list-inline">
+			<li ng-repeat="artist in searchCtrl.results.artists track by $index">
+				
+				<div artist-image artist="artist" size="2" hover="true" class="artistimage" ui-sref="app.artist({ artist: artist })">
+					<div class="inner">
+						{{artist}}
+					</div>
+				</div>
+				
+			</li>
+		</ul>
+	</div>
+	
+	<div class="results" ng-show="searchCtrl.results.albums.length > 0">
+		<h4>Albums</h4>
+		<ul class="list-inline">
+			<li ng-repeat="album in searchCtrl.results.albums track by $index">
+				{{album}}
+			</li>
+		</ul>
+	</div>
+	<!-- <h4>Tracks</h4>
+	<ul class="list-inline">
+		<li ng-repeat="track in searchCtrl.results.tracks track by $index">{{track}}</li>
+	</ul> -->
+</div>

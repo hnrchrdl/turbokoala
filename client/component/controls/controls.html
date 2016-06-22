@@ -1,0 +1,47 @@
+<div class="controls">
+    <div class="container-fluid inner">
+    <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="row">
+          <small>{{controlsCtrl.currenttime | timestring}}</small><small class="pull-right">{{controlsCtrl.totaltime | timestring}}</small>
+          <div class="songprogress col-xs-12">
+            <div class="progress-inner" ng-style="{'width': controlsCtrl.songprogress + '%'}"></div>
+          </div>
+        </div>
+
+        <div class="row">
+            <div class="btn-group btn-group-lg pull-right">
+      	      	<!-- previuos -->
+                <button href="#" class="btn btn-default" mpd="previous">
+                  <i class="fa fa-backward"></i>
+                </button>
+            
+        		    <!-- pause -->
+                <button href="#" class="btn btn-default" ng-class="{ active: appCtrl.Mpd.status.state === 'pause'}" mpd="pause">
+              	   <i class="fa fa-pause"></i>
+                </button>
+
+                <!-- play -->
+                <button href="#" class="btn btn-default" ng-class="{ active: appCtrl.Mpd.status.state === 'play'}" mpd="play">
+              	   <i class="fa fa-play"></i>
+                </button>
+
+                <!-- stop -->
+                <button href="#" class="btn btn-default" ng-class="{ active: appCtrl.Mpd.status.state === 'stop'}" mpd="stop">
+              	   <i class="fa fa-stop"></i>
+                </button>
+
+                <!-- forward -->
+                <button href="#" class="btn btn-default" mpd="next">
+                  <i class="fa fa-forward" ></i>
+                </button>
+
+            </div>
+
+            <div  ng-if="appCtrl.Mpd.currentsong">
+                <b>{{appCtrl.Mpd.currentsong.Artist}}</b><br>
+                {{appCtrl.Mpd.currentsong.Title}}<br>
+                <small><em>{{appCtrl.Mpd.currentsong.Album}}</em></small>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</div>

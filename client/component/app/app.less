@@ -1,0 +1,126 @@
+body {
+	overflow: hidden;
+}
+
+
+.pusher {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	background-color: @body-bg;
+	opacity: 1;
+	transition: background-image 1s ease-in-out;
+	transition: left 0.2s;
+	&.pushed {
+		//opacity: 0.5;
+		left: @navbar-push;
+		//background-color: rgba(0,0,0,0.2);
+	}
+	.main {
+		position: absolute;
+		bottom: 150px;
+		left: 0;
+		right: 0;
+		top: 60px;
+		overflow-y: auto;
+	}
+}
+
+
+.loading {
+	position: absolute;
+	margin: 0 auto;
+	display: inline-block;
+	margin-top: 50%;
+	opacity: 0.5;
+	color: @brand-success;
+
+}
+
+
+.btn{
+	background-color: transparent;
+	&:hover {
+		border-color: @gray-dark;
+	}
+	&.active {
+		color: @brand-primary;
+		webkit-box-shadow: none;
+		box-shadow: none;
+		border-color: @gray;
+		&:hover {	
+			background-color: transparent;
+			border-color: @gray-dark;
+		}
+	}
+}
+
+.btn.btn-default{
+	background-color: transparent;
+	&:hover {
+		border-color: @gray-dark;
+		background-color: fadeout(@gray, 80%);
+	}
+	&.active {
+		color: @brand-primary;
+		webkit-box-shadow: none;
+		box-shadow: none;
+		border-color: @gray;
+		&:hover {	
+			background-color: transparent;
+			border-color: @gray-dark;
+		}
+	}
+}
+
+// scrollbars
+::-webkit-scrollbar
+{
+  width: 12px;  /* for vertical scrollbars */
+  height: 12px; /* for horizontal scrollbars */
+}
+
+::-webkit-scrollbar-track
+{
+  //background: fadeout(@body-bg,80%);
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb
+{
+  background: fadeout(@brand-primary, 50%);
+}
+
+
+//tooltips
+.tp > span {
+    padding: 5px;
+    opacity: 0;
+    visibility: hidden;
+    z-index: 10;
+    position: absolute;
+    font-size: 12px;
+    border-radius: @border-radius-base;
+    transition: opacity 0.2s;
+    text-decoration: none;
+    overflow: visible;
+    bottom: 20px;
+    display: inline;
+    color: @text-color; 
+	background: @body-bg;
+    &.left {
+    	right: 0;
+    }
+    &.right {
+    	left: 0;
+    }
+}
+
+/*a.tooltip > span:hover,*/
+.tp:hover > span {
+    opacity: 0.8;
+	visibility: visible;
+}

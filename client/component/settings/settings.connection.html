@@ -1,0 +1,30 @@
+<p>
+	<b>Mpd Connection</b>
+	<i class="fa fa-close pull-right clickable" ng-click="settingsCtrl.Settings.active = null"></i>
+</p>
+<hr>
+
+<form ng-submit="csCtrl.save()">
+	<div class="form-group">
+		<label>Host</label>
+		<input type="text" class="form-control" name="host" ng-model="csCtrl.connection.host">
+	</div>
+	<div class="form-group">
+		<label>Port</label>
+		<input type="text" class="form-control" name="port"  ng-model="csCtrl.connection.port">
+	</div>
+	<label>Password</label>
+	<div class="form-group">
+		<input type="password" class="form-control" name="pw"  ng-model="csCtrl.connection.pw">
+	</div>
+	<div class="btn-group">
+		<a role="button" class="btn btn-default" ng-click="csCtrl.connect()">
+			Connect
+		</a>
+		<a role="button" class="btn btn-default" ng-click="csCtrl.test()">
+			<i class="fa" ng-if="csCtrl.status !== false" ng-class="{'fa-spin fa-spinner': csCtrl.status=== 2, 'fa-check': csCtrl.status === 1, 'fa-remove': csCtrl.status === 0}"></i>
+			Test
+		</a>
+	</div>
+	<input type="submit" class="btn btn-primary pull-right" value="Save">
+</form>

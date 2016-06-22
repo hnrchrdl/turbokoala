@@ -1,0 +1,34 @@
+@import url("../node_modules/bootstrap/less/bootstrap.less");
+@import url("./darkly.less");
+
+@navbar-push: 					220px;
+
+// bootstrap variable override
+@table-border-color:            fadeout(@gray, 80%);
+//** Background color used for `.table-striped`.
+@table-bg-accent:               fadeout(lighten(@gray-dark, 5%), 80%);
+//** Background color used for `.table-hover`.
+@table-bg-hover:                fadeout(@gray, 80%);
+@table-bg-active:               fadeout(@table-bg-hover, 80%);
+
+
+// input
+@input-bg:						transparent;
+@input-color:					@text-color;
+@input-border:					@brand-primary;
+@input-border-focus:			@brand-primary;
+
+@import "./component/app/app.less";
+@import "./component/artist/artist.less";
+@import "./component/lastfm/image.less";
+@import "./component/controls/controls.less";
+@import "./component/navbar/navbar.less";
+@import "./component/nowplaying/nowplaying.less";
+@import "./component/queue/queue.less";
+@import "./component/search/search.less";
+@import "./component/settings/settings.less";
+@import "./component/songtable/songtable.less";
+
+.clickable {
+	cursor: pointer;
+}

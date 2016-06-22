@@ -1,0 +1,38 @@
+<nav>
+	<div class="navbar-side">
+		<!-- <div class="clearfix">	
+			<a class="btn btn-default pull-right" ng-click="navCtrl.toggleNav()">
+				<i class="fa fa-close"></i>
+			</a>
+		</div> -->
+		<h4>TurboKoala</h4>
+		<hr>
+		<div class="nav-wrapper" 
+			ng-class="{active: appCtrl.getCurrentStateName() === 'app.nowplaying'}"
+			ng-click="appCtrl.changeState('app.nowplaying')">
+			<div class="inner">Now Playing</div>
+		</div>
+		<div class="nav-wrapper"
+			ng-class="{active: appCtrl.getCurrentStateName() === 'app.queue'}"
+			ng-click="appCtrl.changeState('app.queue')">
+			<div class="inner">Queue</div>
+		</div>
+		<div class="nav-wrapper"
+			ng-class="{active: appCtrl.getCurrentStateName() === 'app.playlists'}"
+			ng-click="appCtrl.changeState('app.playlists')">
+			<div class="inner">Playlists</div>
+		</div>
+		<div class="nav-wrapper"
+			ng-class="{active: appCtrl.getCurrentStateName() === 'app.hitlist'}"
+			ng-click="appCtrl.changeState('app.hitlist')">
+			<div class="inner">Hitlist</div>
+		</div>
+		<div class="nav-wrapper"
+			ng-class="{active: appCtrl.getCurrentStateName() === 'app.browse'}"
+			ng-click="appCtrl.changeState('app.browse')">
+			<div class="inner">Browse</div>
+		</div>
+		<hr>
+		<searchbar></searchbar>
+	</div>
+</nav>

@@ -1,0 +1,27 @@
+.settings {
+	position: absolute;
+	right: 8px;
+	top: @navbar-height + 8;
+	width: 300px;
+	z-index: 100000;
+	padding: 20px;
+	border: 1px solid @table-border-color;
+	background-color: fadeout(@body-bg, 30%);
+	border-radius: @border-radius-base;
+}
+
+.settings-clicker {
+	color: @brand-success;
+	&.on, &.connected {
+		color: @brand-success !important; 
+	}
+	&.off {
+		color: inherit;	
+	}
+	&.loading {
+		color: @brand-warning !important;
+	}
+	&.offline {
+		color: @brand-danger !important;
+	}
+}

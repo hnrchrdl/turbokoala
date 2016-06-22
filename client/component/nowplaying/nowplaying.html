@@ -1,0 +1,30 @@
+<div class="nowplaying" ng-show="nowCtrl.artistinfo">
+	<div class="container-fluid artistinfo" ng-show="nowCtrl.artistinfo.name">
+		<div class="name">
+			<h1 class="text-center row">
+				{{nowCtrl.artistinfo.name}}
+			</h1>
+		</div>
+		<div class="tags text-center">
+			<ul class="list-inline">
+				<li ng-repeat="tag in nowCtrl.artistinfo.tags.tag">{{tag.name}}</li>
+			</ul>
+		</div>
+		<div class="row bio text-center ">
+			<div class="col-xs-12 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4 col-lg-4 col-lg-offset-4">
+				<div class="small" ng-bind-html="nowCtrl.artistinfo.bio.summary"></div>
+				<hr class="clearfix">
+			</div>
+		</div>
+		<div class="row similar text-center">
+			<div class="col-xs-12 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4 col-lg-4 col-lg-offset-4">
+				<p>Similar Artists:</p>
+				<ul class="list-inline">
+					<li ng-repeat="artist in nowCtrl.artistinfo.similar.artist">
+						{{artist.name}}
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>

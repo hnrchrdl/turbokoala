@@ -1,0 +1,6 @@
+<div class="settings" ng-if="settingsCtrl.Settings.active">
+	<stream-settings ng-if="settingsCtrl.Settings.active === 'stream'"></stream-settings>
+	<connection-settings ng-if="settingsCtrl.Settings.active === 'connection'"></connection-settings>
+	<user-settings ng-if="settingsCtrl.Settings.active === 'user'"></user-settings>
+	<searchbar ng-if="settingsCtrl.Settings.active === 'search'"></searchbar>
+</div>

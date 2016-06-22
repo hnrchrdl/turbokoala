@@ -1,0 +1,35 @@
+<div class="container artist-details">	
+	<div class="row clearfix">
+		<div class="col-xs-12">
+			<!-- <img class="img img-responsive" ng-src="{{artistCtrl.artistinfo.artist.image[2]['#text']}}" /> -->
+			<div artist-image artist="artistCtrl.artistinfo.artist.name" size="4" class="header">
+				
+				<h1>{{artistCtrl.artist}}</h1>
+				<ul class="list-inline">
+					<li ng-repeat="tag in artistCtrl.artistinfo.artist.tags.tag track by $index">{{tag.name}}</li>
+				</ul>
+				<hr>
+				<div class="btn-group">
+					<button class="btn btn-default" 
+							ui-sref="app.artist.albums({artist: artistCtrl.artistinfo.artist.name})">
+						Albums
+					</button>
+					<button class="btn btn-default" 
+							ui-sref="app.artist.songs({artist: artistCtrl.artistinfo.artist.name})">
+						Similar Artists
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-12" ng-repeat="(name, songs) in artistCtrl.albums">
+			<div class="album">
+				<h4>{{name}} <small>{{songs[0].Date}}</small></h4>
+				<table class="table">
+					<song-table songs="songs" options="artistCtrl.albumoptions"></song-table>
+				</table>
+			</div>
+		</div>
+	</div>	
+</div>
