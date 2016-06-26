@@ -4,48 +4,18 @@ module.exports = function(_module) {
 		
 		const restrict = 'E';
 		const template = require('./search.html');
-		const controller = ['$stateParams', 'Mpd', function($stateParams, Mpd) {
-
+		const controller = ['$scope', '$state', '$stateParams', 'Mpd', function($scope, $state, $stateParams, Mpd) {
 
 			this.input = $stateParams.input;
+			this.artists = [];
+			this.albums = [];
 			
 			this.search = (input) => {
+				window.console.log(input)
 				if(input.length > 2) {
 
-					this.isLoading = true;
-
-					Mpd.search('any', input).then((response) => {
-
-						let results = { 
-							artists: [],
-							albums: [],
-							albumartists: [],
-							composer: [],
-							title: [],
-							genres: [],
-						};
-
-						this.results = response.reduce((prev, curr) => {
-							let artist = curr.Artist;
-							let album = curr.Album;
-							let albumartist = curr.AlbumArtist;
-							let composer = curr.Composer;
-							let title = curr.Title;
-							let genre = curr.Genre;
-							if(artist && artist.length > 1
-									&& artist.toLowerCase().indexOf(input.toLowerCase()) > -1 
-									&& prev.artists.indexOf(artist) === -1) {
-								prev.artists.push(artist);
-							}
-							if(album && album.length > 1
-									&& album.toLowerCase().indexOf(input.toLowerCase()) > -1 
-									&& prev.albums.indexOf(album) === -1) {
-								prev.albums.push(album);
-							}
-							this.isLoading = false;
-							return prev;
-						}, Object.assign({}, results));
-					});
+					$state.go('app.search', { input: input });
+					
 				}
 				else {
 					// input too short
@@ -53,8 +23,37 @@ module.exports = function(_module) {
 				}
 			}
 
-			// Perform a search when scope gets active
-			this.search(this.input);
+			$scope.$watch(() => { return $stateParams.input; }, (input) => {
+
+				doSearch(input);
+
+			});
+
+			let doSearch = (input) => {
+
+				this.isLoading = true;
+				var done = _.after(2, () => { this.isLoading = false; });
+
+				Mpd.search('Artist', input).then((artists) => {
+
+					this.artistGroups = artists ? artists : null;
+					this.artists = artists ? Object.keys(artists) : [];
+					this.artists = _.orderBy(this.artists, (artist) => {
+						return this.artistGroups[artist].length;
+					}, 'desc');
+					done();
+				});
+
+				Mpd.search('Album', input).then((albums) => {
+					this.albumGroups = albums ? albums : null;
+					this.albums = albums ? Object.keys(albums) : [];
+					this.albums = _.orderBy(this.albums, (album) => {
+						return this.albumGroups[album].length;
+					}, 'desc');
+					done();
+				});
+			};
+
 		}];
 		const controllerAs = 'searchCtrl';
 		const link = (scope, element) => {

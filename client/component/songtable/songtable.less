@@ -1,7 +1,13 @@
 .songtable {
 	table {
+		a {
+			color: @text-color;
+		}
 		tr.active {
 			color: @brand-success;
+			a {
+				color: @brand-success;
+			}
 		}
 		.btn {
 			background-color: transparent;
@@ -13,6 +19,15 @@
 			&.active {
 				color: @brand-success;
 			}
+			&.btn-danger {
+				&:hover {
+					color: @brand-danger;
+				}
+				&.active {
+					color: @brand-danger;
+				}
+			}
 		}
+		
 	}
 }

@@ -24,6 +24,8 @@ module.exports = function(app) {
 
 	app.get('/api/artist/:artistname', authApi, lastfmCtrl.getArtistDetails);
 	app.get('/api/artist/:artistname/topalbums', authApi, lastfmCtrl.getTopAlbums);
+	app.get('/api/artist/:artistname/album/:albumname', authApi, lastfmCtrl.getAlbumDetails);
+	app.get('/api/artist/:artistname/similar', authApi, lastfmCtrl.getSimilarArtists);
 
 	app.get('/api/userfavs', authApi, favCtrl.getUserFavs)
 	app.get('/api/favs', authApi, favCtrl.getAllFavs)

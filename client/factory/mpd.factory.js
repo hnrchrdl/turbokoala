@@ -179,8 +179,10 @@ module.exports = function(_module) {
 					// send playlist command
 					this.client.sendCommand('playlistinfo', (err, response) => {
 						if(err) { this.$$service.playlist = []; }
-						// parse response
-						this.$$service.playlist = mpd.parseArrayMessage(response);
+						$timeout(() => {
+							// parse response
+							this.$$service.playlist = mpd.parseArrayMessage(response);
+						});
 					});
 				});
 			},
@@ -191,10 +193,20 @@ module.exports = function(_module) {
 				what = what || '';
 				
 				return this.whenConnected.promise.then(() => {
+
 					let results = $q.defer();
+
 					this.$$service.exec('search', [type, what], function(err, response) {
+
 						if(err) results.reject(err);
-						results.resolve(mpd.parseArrayMessage(response));
+
+						let resultArr = mpd.parseArrayMessage(response);
+						
+						if(_.isArray(resultArr) && resultArr.length > 0 && !_.isEmpty(resultArr[0])) {
+							results.resolve(_.groupBy(resultArr, 'Album'));
+						} else {
+							results.resolve(null);
+						}
 					});
 					return results.promise;
 				});
@@ -204,17 +216,21 @@ module.exports = function(_module) {
 
 			getAllAlbumsOfArtist: (artistname) => {
 
-				window.console.log('search: ', artistname)
-				window.console.log(this.whenConnected.promise)
 				let type = 'Artist';
 				let what = artistname;
 				
 				return this.whenConnected.promise.then(() => {
 					let results = $q.defer();
-					window.console.log('h')
 					this.$$service.exec('search', [type, what], function(err, response) {
 						if(err) results.reject(err);
-						results.resolve(_.groupBy(mpd.parseArrayMessage(response), 'Album'));
+
+						let resultArr = mpd.parseArrayMessage(response);
+						
+						if(_.isArray(resultArr) && resultArr.length > 0 && !_.isEmpty(resultArr[0])) {
+							results.resolve(_.groupBy(resultArr, 'Album'));
+						} else {
+							results.resolve(null);
+						}
 					});
 					return results.promise;
 				});

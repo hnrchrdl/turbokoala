@@ -6,6 +6,7 @@ module.exports = function(_module) {
 		const template = require('./queue.html');
 		const controller = ['$scope', function($scope) {
 			this.Mpd = Mpd;
+			
 			$scope.$watchCollection(() => { return Mpd.playlist; }, (playlist) => {
 				this.playlist = playlist;
 				window.console.log(this.playlist)

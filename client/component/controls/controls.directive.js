@@ -30,14 +30,24 @@ module.exports = function(_module) {
 
 						};
 
-						timer = $interval(() => {
+						if(Mpd.status.state === 'play') {
 
-							currenttime = +currenttime +1; // Add one second every second
-							
+							timer = $interval(() => {
+
+								currenttime = +currenttime + 1; // Add one second every second
+								
+								this.songprogress = currenttime / totaltime * 100;
+								this.currenttime = currenttime;
+
+					        }, 1000);
+						
+						}
+
+						else {
 							this.songprogress = currenttime / totaltime * 100;
-							this.currenttime= currenttime;
+							this.currenttime = currenttime;
+						}
 
-				        }, 1000);
 					}
 					else {
 						

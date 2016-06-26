@@ -1,35 +1,70 @@
 <div class="container artist-details">	
 	<div class="row clearfix">
+		<div class="col-xs-12 col-sm-8 col-sm-push-4 col-md-9 col-md-push-3">
+			<!-- <img class="img img-responsive" ng-src="{{artistCtrl.artistinfo.artist.image[2]['#text']}}" /> -->				
+			<h1>{{artistCtrl.artist}}</h1>
+			<ul class="list-inline">
+				<li ng-repeat="tag in artistCtrl.artistinfo.artist.tags.tag track by $index">{{tag.name}}</li>
+			</ul>
+			
+
+			<div class="bio">
+				<small><span class="bio" ng-bind-html="artistCtrl.artistinfo.artist.bio.summary"></span></small>
+			</div>
+		</div>
+		<div class="col-xs-12 col-sm-4 col-sm-pull-8 col-md-3 col-md-pull-9">
+			<img class="img img-responsive albumcover" lastfm-image artist="artistCtrl.artist" is-img-tag="true" size="3">
+		</div>
+	</div>
+	<hr>
+	<div class="btn-group">
+		<button class="btn btn-default" 
+				ng-click="artistCtrl.categoryToShow='albums'" ng-class="{ active: artistCtrl.categoryToShow==='albums' }">
+			Albums ({{artistCtrl.countAlbums()}})
+		</button>
+		<button class="btn btn-default"
+				ng-click="artistCtrl.categoryToShow='similar'"
+				ng-class="{ active: artistCtrl.categoryToShow==='similar' }">
+			Similar Artists
+		</button>
+	</div>
+	<div class="album row" 
+			ng-repeat="(name, songs) in artistCtrl.albums"
+			ng-show="artistCtrl.categoryToShow==='albums'">
 		<div class="col-xs-12">
-			<!-- <img class="img img-responsive" ng-src="{{artistCtrl.artistinfo.artist.image[2]['#text']}}" /> -->
-			<div artist-image artist="artistCtrl.artistinfo.artist.name" size="4" class="header">
-				
-				<h1>{{artistCtrl.artist}}</h1>
-				<ul class="list-inline">
-					<li ng-repeat="tag in artistCtrl.artistinfo.artist.tags.tag track by $index">{{tag.name}}</li>
-				</ul>
-				<hr>
-				<div class="btn-group">
-					<button class="btn btn-default" 
-							ui-sref="app.artist.albums({artist: artistCtrl.artistinfo.artist.name})">
-						Albums
-					</button>
-					<button class="btn btn-default" 
-							ui-sref="app.artist.songs({artist: artistCtrl.artistinfo.artist.name})">
-						Similar Artists
-					</button>
+			<h3>{{name}} <small>{{songs[0].Date}}</small></h3>
+		</div>
+		<div class="col-xs-12 col-sm-4 col-md-3 col-lg-2 left">
+			<img class="img img-responsive albumcover" lastfm-image artist="artistCtrl.artist" album="name" is-img-tag="true" size="3">
+			<div class="albumcontrols">
+				<button class="btn btn-primary btn-sm btn-block">
+					<i class="fa fa-play"></i>
+					Play
+				</button>
+				<button class="btn btn-default btn-sm btn-block">
+					<i class="fa fa-plus"></i>
+					Add
+				</button>
+			</div>
+		</div>
+		<div class="col-xs-12 col-sm-8 col-md-9 col-lg-10">
+			<song-table songs="songs" options="artistCtrl.albumoptions"></song-table>
+		</div>
+	</div>
+	<div class="album row" ng-show="artistCtrl.categoryToShow==='albums' && !artistCtrl.albums">
+		<div class="col-lg-12">
+			No albums in database.
+		</div>
+	</div>
+
+	<div class="row similar" ng-if="artistCtrl.categoryToShow==='similar'">
+		<div class="col-xs-4 col-sm-4 col-md-3 col-lg-2 artist"
+				ng-repeat="artist in artistCtrl.similar.similarartists.artist">
+			<div lastfm-image images="artist.image" size="2" hover="true" ui-sref="app.artist({ artist: artist.name })">
+				<div class="inner">
+					{{artist.name}}
 				</div>
 			</div>
 		</div>
 	</div>
-	<div class="row">
-		<div class="col-xs-12" ng-repeat="(name, songs) in artistCtrl.albums">
-			<div class="album">
-				<h4>{{name}} <small>{{songs[0].Date}}</small></h4>
-				<table class="table">
-					<song-table songs="songs" options="artistCtrl.albumoptions"></song-table>
-				</table>
-			</div>
-		</div>
-	</div>	
 </div>

@@ -6,6 +6,7 @@ module.exports = (_module) => {
 		 const controller = ['$stateParams', 'Mpd', 'LastFm',  function($stateParams, Mpd, LastFm) {
 		 	
 		 	this.artist = $stateParams.artist;
+		 	this.categoryToShow = 'albums';
 
 		 	Mpd.getAllAlbumsOfArtist(this.artist).then((albums) => {
 		 		this.albums = albums;
@@ -15,12 +16,17 @@ module.exports = (_module) => {
 		 		this.artistinfo = response.data;
 		 	});
 
+		 	LastFm.getSimilarArtists(this.artist).then((response) => {
+		 		this.similar = response.data;
+		 	});
+
+		 	this.countAlbums = () => {
+		 		return this.albums ? Object.keys(this.albums).length : 0;
+		 	}
+
 		 	this.albumoptions = {
 		 		controls: {
-		 			fav: false,
-		 			play: false,
-		 			move: false,
-		 			delete: false
+		 			playlist: false
 		 		},
 		 		columns: {
 		 			artist: false,

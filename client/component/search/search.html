@@ -1,4 +1,4 @@
-<div class="container-fluid search-container">
+<div class="container search-container">
 <div class="input-searchbar">
 		<form ng-submit="searchCtrl.search(searchCtrl.input)">
 			<label for="search"><i class="fa fa-search"></i></label>
@@ -7,32 +7,32 @@
 	</div>
 
 	<div class="results loading" ng-show="searchCtrl.isLoading"><i class="fa fa-spin fa-spinner"></i></div>
-	
-	<div class="results" ng-show="searchCtrl.results.artists.length > 0">
+
+	<div class="results" ng-show="searchCtrl.artists.length > 0">
 		<h4>Artists</h4>
-		<ul class="list-inline">
-			<li ng-repeat="artist in searchCtrl.results.artists track by $index">
-				
-				<div artist-image artist="artist" size="2" hover="true" class="artistimage" ui-sref="app.artist({ artist: artist })">
+		<div class="row">
+			<div ng-repeat="artist in searchCtrl.artists track by $index" class="col-lg-2 col-md-3 col-sm-4 col-xs-6">
+				<div lastfm-image artist="artist" size="2" hover="true" ui-sref="app.artist({ artist: artist })">
 					<div class="inner">
-						{{artist}}
+						{{artist}} <br>
+						<small>{{searchCtrl.artistGroups[artist].length}} Songs</small>
 					</div>
 				</div>
-				
-			</li>
-		</ul>
+			</div>	
+		</div>
 	</div>
 	
-	<div class="results" ng-show="searchCtrl.results.albums.length > 0">
+	<div class="results" ng-show="searchCtrl.albums.length > 0">
 		<h4>Albums</h4>
-		<ul class="list-inline">
-			<li ng-repeat="album in searchCtrl.results.albums track by $index">
-				{{album}}
-			</li>
-		</ul>
+		<div class="row">
+			<div ng-repeat="album in searchCtrl.albums track by $index" class="col-lg-2 col-md-3 col-sm-4 col-xs-6">
+				<div lastfm-image artist="searchCtrl.albumGroups[album][0].Artist" album="album" size="2" hover="true" square="true" ui-sref="app.artist({ artist: searchCtrl.albumGroups[album][0].Artist })">
+					<div class="inner">
+						{{album}} <br>
+						<small>{{searchCtrl.albumGroups[album].length}} Songs</small>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
-	<!-- <h4>Tracks</h4>
-	<ul class="list-inline">
-		<li ng-repeat="track in searchCtrl.results.tracks track by $index">{{track}}</li>
-	</ul> -->
 </div>

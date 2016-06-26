@@ -1,9 +1,11 @@
 <div class="nowplaying" ng-show="nowCtrl.artistinfo">
 	<div class="container-fluid artistinfo" ng-show="nowCtrl.artistinfo.name">
 		<div class="name">
-			<h1 class="text-center row">
-				{{nowCtrl.artistinfo.name}}
-			</h1>
+			<a class="" ui-sref="app.artist({artist: nowCtrl.artistinfo.name})">
+				<h1 class="text-center row">
+					{{nowCtrl.artistinfo.name}}
+				</h1>
+			</a>
 		</div>
 		<div class="tags text-center">
 			<ul class="list-inline">
@@ -21,7 +23,7 @@
 				<p>Similar Artists:</p>
 				<ul class="list-inline">
 					<li ng-repeat="artist in nowCtrl.artistinfo.similar.artist">
-						{{artist.name}}
+						<a class="" href="" ui-sref="app.artist({ artist: artist.name })">{{artist.name}}</a>
 					</li>
 				</ul>
 			</div>

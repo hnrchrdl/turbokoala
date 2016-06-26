@@ -1,16 +1,14 @@
 <div class="songtable">
-	<table class="table table-hover table-condensed">
+	<table class="table table-hover table-condensed table-sm">
 		<thead>
 			<th ng-if="stCtrl.options.controls.add!==false"></th>
+			<th ng-if="stCtrl.options.controls.playlist!==false"></th>
 			<th ng-if="stCtrl.options.controls.fav!==false"></th>
-			<th ng-if="stCtrl.options.controls.play!==false"></th>
 			<th ng-if="stCtrl.options.columns.pos!==false">Pos</th>
 			<th ng-if="stCtrl.options.columns.artist!==false">Artist</th>
 			<th>Title</th>
 			<th>Album</th>
 			<th>Length</th>
-			<th ng-if="stCtrl.options.controls.move!==false"></th>
-			<th ng-if="stCtrl.options.controls.delete!==false"></th>
 		</thead>
 		<tbody>
 			<tr ng-repeat="song in stCtrl.songs track by $index" ng-class="{ active: song.Id && song.Id === stCtrl.activeId }" >
@@ -18,61 +16,67 @@
 					<button class="btn btn-default btn-xs tp" 
 							mpd="add" args="song.file">
 						<i class="fa fa-plus"></i>
-
 					</button>
+				</td>
+				<td ng-if="stCtrl.options.controls.playlist!==false">
+
+					<div class="btn-group">
+						<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							<i class="fa fa-ellipsis-h"></i> 
+							<!-- <span class="caret"></span> -->
+						</button>
+						<ul class="dropdown-menu">
+							<li>
+								<a href="" mpd="playid" args="song.Id">
+									<i class="fa fa-play"></i>
+									 Play
+								</a>
+							</li>
+							<li>
+								<a href="" mpd="moveid" args="[song.Id, -1]">
+									<i class="fa fa-arrow-right"></i>
+									 Play Next
+								</a>
+							</li>
+							<li role="separator" class="divider"></li>
+							<li>
+								<a href="" mpd="moveid" args="[song.Id, song.Pos - 1]">
+									<i class="fa fa-arrow-up"></i>
+									 Move Up
+								</a>
+							</li>
+							<li>
+								<a href="" mpd="moveid" args="[song.Id, song.Pos + 1]">
+									<i class="fa fa-arrow-down"></i>
+								 	 Move Down
+								</a>
+							</li>
+							<li role="separator" class="divider"></li>
+							<li>
+								<a href="" mpd="deleteid" args="song.Id">
+									<i class="fa fa-remove"></i>
+									 Delete
+								</a>
+							</li>
+						</ul>
+					</div>
 				</td>
 				<td ng-if="stCtrl.options.controls.fav!==false">
 					<div class="btn-group btn-group-xs">
-						<button class="btn btn-default btn-xs tp r"
-								ng-click="stCtrl.Favs.toggleFav(song.Artist, song.Title)">
-								<!-- <span class="right">fav</span> -->
+						<button class="btn btn-danger btn-xs"
+								ng-click="stCtrl.Favs.toggleFav(song.Artist, song.Title)"
+								ng-class="{ 'active': stCtrl.Favs.isUserFav(song) }"
+								>
 							<i class="fa" ng-class="{ 'fa-heart': stCtrl.Favs.isUserFav(song), 'fa-heart-o': !stCtrl.Favs.isUserFav(song) }"></i>
 						</button>
 					</div>
 				</td>
-				<td ng-if="stCtrl.options.controls.play!==false">
-					<div class="btn-group btn-group-xs">
-						<button class="btn btn-default tp r" 
-								mpd="playid" args="song.Id">
-								<!-- <span class="right">play</span> -->
-							<i class="fa fa-play"></i>
-						</button>
-					</div>
-				</td>
 				<td ng-if="stCtrl.options.columns.pos!==false">{{song.Pos}}</td>
-				<td ng-if="stCtrl.options.columns.artist!==false">{{song.Artist}}</td>
+				<td ng-if="stCtrl.options.columns.artist!==false">
+					<a class="" ui-sref="app.artist({artist:song.Artist})">{{song.Artist}}</a></td>
 				<td>{{song.Title}}</td>
 				<td>{{song.Album}}</td>
 				<td>{{song.Time | timestring}}</td>
-				<td ng-if="stCtrl.options.controls.move!==false">
-					<div class="btn-group btn-group-xs">
-						<button class="btn btn-default tp" 
-								mpd="moveid" args="[song.Id, song.Pos - 1]">
-								<!-- <span class="left">move up</span> -->
-							<i class="fa fa-arrow-up"></i>
-
-						</button>
-						<button class="btn btn-default tp l" 
-								mpd="moveid" args="[song.Id, song.Pos + 1]">
-								<!-- <span class="left">move down</span> -->
-							<i class="fa fa-arrow-down"></i>
-						</button>
-						<button class="btn btn-default tp l" 
-								mpd="moveid" args="[song.Id, -1]">
-								<!-- <span class="left">play next</span> -->
-							<i class="fa fa-arrow-right"></i>
-						</button>
-					</div>
-				</td>
-				<td ng-if="stCtrl.options.controls.move!==false">
-					<div class="btn-group btn-group-xs">
-						<button class="btn btn-default tp l" 
-								mpd="deleteid" args="song.Id">
-								<!-- <span class="left">remove</span> -->
-							<i class="fa fa-remove"></i>
-						</button>
-					</div>
-				</td>
 			</tr>
 		</tbody>
 	</table>
