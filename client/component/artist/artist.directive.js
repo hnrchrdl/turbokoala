@@ -24,6 +24,12 @@ module.exports = (_module) => {
 		 		return this.albums ? Object.keys(this.albums).length : 0;
 		 	}
 
+		 	this.addToPlaylist = (songs) => {
+		 		Mpd.addToPlaylist(songs).then(() => {
+		 			window.console.log('songs added');
+		 		});
+		 	}
+
 		 	this.albumoptions = {
 		 		controls: {
 		 			playlist: false
