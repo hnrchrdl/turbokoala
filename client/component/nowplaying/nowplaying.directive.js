@@ -25,7 +25,7 @@ module.exports = function(_module) {
 			};
 
 			// Whenver Status song changes, call update.
-			$scope.$watch(() => { return Mpd.currentsong.Artist; }, (artist) => { 
+			$scope.$watch(() => { return Mpd.currentsong.Artist; }, (artist) => {
 				update(artist); 
 			});
 		}];
