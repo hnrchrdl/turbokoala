@@ -6,7 +6,13 @@
 			</a>
 		</div> -->
 		<h4>TurboKoala</h4>
+
 		<hr>
+		
+		<searchbar></searchbar>
+		
+		<hr>
+		
 		<div class="nav-wrapper" 
 			ng-class="{active: appCtrl.getCurrentStateName() === 'app.nowplaying'}"
 			ng-click="appCtrl.changeState('app.nowplaying')">
@@ -33,6 +39,13 @@
 			<div class="inner">Browse</div>
 		</div>
 		<hr>
-		<searchbar></searchbar>
+		<div class="nav-wrapper" ng-click="appCtrl.changeState('app.settings')"
+			ng-class="{active: appCtrl.getCurrentStateName() === 'app.settings'}">
+			<div class="inner">Settings</div>
+		</div>
+		  <div class="nav-wrapper" ng-click="appCtrl.logout()">
+			<div class="inner">Logout</div>
+		</div>
+
 	</div>
 </nav>

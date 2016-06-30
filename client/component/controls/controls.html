@@ -11,31 +11,35 @@
         <div class="row">
             <div class="btn-group btn-group-lg pull-right">
       	      	<!-- previuos -->
-                <button href="#" class="btn btn-default" mpd="previous">
+                <button href="" class="btn btn-default" mpd="previous">
                   <i class="fa fa-backward"></i>
                 </button>
             
         		    <!-- pause -->
-                <button href="#" class="btn btn-default" ng-class="{ active: appCtrl.Mpd.status.state === 'pause'}" mpd="pause">
+                <button href="" class="btn btn-default" ng-class="{ active: appCtrl.Mpd.status.state === 'pause'}" mpd="pause">
               	   <i class="fa fa-pause"></i>
                 </button>
 
                 <!-- play -->
-                <button href="#" class="btn btn-default" ng-class="{ active: appCtrl.Mpd.status.state === 'play'}" mpd="play">
+                <button href="" class="btn btn-default" ng-class="{ active: appCtrl.Mpd.status.state === 'play'}" mpd="play">
               	   <i class="fa fa-play"></i>
                 </button>
 
                 <!-- stop -->
-                <button href="#" class="btn btn-default" ng-class="{ active: appCtrl.Mpd.status.state === 'stop'}" mpd="stop">
+                <button href="" class="btn btn-default" ng-class="{ active: appCtrl.Mpd.status.state === 'stop'}" mpd="stop">
               	   <i class="fa fa-stop"></i>
                 </button>
 
                 <!-- forward -->
-                <button href="#" class="btn btn-default" mpd="next">
+                <button href="" class="btn btn-default" mpd="next">
                   <i class="fa fa-forward" ></i>
                 </button>
 
             </div>
+
+            <button href="" class="stream-toggle btn btn-default btn-lg pull-right">
+              <i class="fa fa-headphones" ></i>
+            </button>
 
             <div  ng-if="appCtrl.Mpd.currentsong">
                 <b>{{appCtrl.Mpd.currentsong.Artist}}</b><br>

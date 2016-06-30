@@ -3,9 +3,29 @@ module.exports = function(_module) {
 	_module.directive('settings', function() {
 		
 		const restrict = 'E';
-		const template = require('./settings.container.html');
-		const controller = ['Settings', function (Settings) {
+		const template = require('./settings.html');
+		const controller = ['Settings', 'User', 'Mpd', function (Settings, User, Mpd) {
+			
 			this.Settings = Settings;
+
+			User.loggedInUser.then((user) => {
+				this.user = user;
+			});
+
+			this.save = () => {
+				this.user && this.user.save().then((user) => {
+					window.console.log('User saved: ', user)
+				});
+			};
+
+			this.connectMpd = (connection) => {
+
+				Mpd.connect(connection).then(() => {
+					// this.teststate = 1;
+				}, () => {
+					// this.teststate = 0;
+				})
+			};
 		}];
 		const controllerAs = 'settingsCtrl';
 
@@ -17,125 +37,125 @@ module.exports = function(_module) {
 		};	
 	});
 
-	_module.directive('settings', ['Settings', function(Settings) {
+	// _module.directive('settings', ['Settings', function(Settings) {
 		
-		const restrict = 'A';
-		const scope = {
-			settings: '@'
-		};
-		const link = (scope, element) => {
-			element.on('click', () => {
-				Settings.setActive(Settings.active === scope.settings ? null : scope.settings);
-			});
-		}
+	// 	const restrict = 'A';
+	// 	const scope = {
+	// 		settings: '@'
+	// 	};
+	// 	const link = (scope, element) => {
+	// 		element.on('click', () => {
+	// 			Settings.setActive(Settings.active === scope.settings ? null : scope.settings);
+	// 		});
+	// 	}
 
-		return {
-			restrict,
-			scope,
-			link
-		};	
-	}]);
+	// 	return {
+	// 		restrict,
+	// 		scope,
+	// 		link
+	// 	};	
+	// }]);
 
 
-	_module.directive('connectionSettings', ['Mpd', 'User', function(Mpd, User) {
+	// _module.directive('connectionSettings', ['Mpd', 'User', function(Mpd, User) {
 		
-		const restrict = 'E';
-		const template = require('./settings.connection.html');
-		const controller = function() {
+	// 	const restrict = 'E';
+	// 	const template = require('./settings.connection.html');
+	// 	const controller = function() {
 
-			this.status = 0; // 1 = ok, 0 = failed, 2 = loading
+	// 		this.status = 0; // 1 = ok, 0 = failed, 2 = loading
 			
-			User.loggedInUser.then((user) => {
-				this.connection = user.connection;
-			}); 
+	// 		User.loggedInUser.then((user) => {
+	// 			this.connection = user.connection;
+	// 		}); 
 
-			this.Mpd = Mpd;
+	// 		this.Mpd = Mpd;
 
-			this.save = () => {
-				// get loggedInUser
-				User.loggedInUser.then((me) => {
-					// find user and update
-					me.connection = this.connection;
-					me.put();
-				});
-			};
+	// 		this.save = () => {
+	// 			// get loggedInUser
+	// 			User.loggedInUser.then((me) => {
+	// 				// find user and update
+	// 				me.connection = this.connection;
+	// 				me.put();
+	// 			});
+	// 		};
 
-			this.test = () => {
-				this.status = 2;
-				Mpd.test(this.connection).then(() => {
-					//resolved
-					return this.status = 1;
-				}, () => {
-					//rejected
-					return this.status = 0;
-				});
-			};
+	// 		this.test = () => {
+	// 			this.status = 2;
+	// 			Mpd.test(this.connection).then(() => {
+	// 				//resolved
+	// 				return this.status = 1;
+	// 			}, () => {
+	// 				//rejected
+	// 				return this.status = 0;
+	// 			});
+	// 		};
 
-			this.connect = () => {
-				Mpd.connect(this.connection);
-			};
+	// 		this.connect = () => {
+	// 			Mpd.connect(this.connection);
+	// 		};
 			
-		};
-		const controllerAs = 'csCtrl';
+	// 	};
+	// 	const controllerAs = 'csCtrl';
 
-		return {
-			restrict,
-			template,
-			controller,
-			controllerAs 
-		};	
-	}]);
+	// 	return {
+	// 		restrict,
+	// 		template,
+	// 		controller,
+	// 		controllerAs 
+	// 	};	
+	// }]);
 
-	_module.directive('streamSettings', function() {
+	// _module.directive('streamSettings', function() {
 		
-		const restrict = 'E';
-		const template = require('./settings.stream.html');
-		const controller = ['Stream', 'User', function(Stream, User) {
-			this.Stream = Stream;
-			window.console.log(this.Stream.url)
-			this.save = () => {
-				Stream.url = this.url;
-				// get loggedInUser
-				User.loggedInUser.then((me) => {
-					me.connection.stream = this.url;
-					me.put().then(() => {
-						this.alert = { class: 'alert-success', msg: 'Saved.'};
-					});
-				});
-			};
-		}];
-		const controllerAs = 'ssCtrl';
+	// 	const restrict = 'E';
+	// 	const template = require('./settings.stream.html');
+	// 	const controller = ['Stream', 'User', function(Stream, User) {
+	// 		this.Stream = Stream;
+	// 		window.console.log(this.Stream.url)
+	// 		this.save = () => {
+	// 			Stream.url = this.url;
+	// 			// get loggedInUser
+	// 			User.loggedInUser.then((me) => {
+	// 				me.connection.stream = this.url;
+	// 				me.put().then(() => {
+	// 					this.alert = { class: 'alert-success', msg: 'Saved.'};
+	// 				});
+	// 			});
+	// 		};
+	// 	}];
+	// 	const controllerAs = 'ssCtrl';
 
-		return {
-			restrict,
-			template,
-			controller,
-			controllerAs 
-		};	
-	});
+	// 	return {
+	// 		restrict,
+	// 		template,
+	// 		controller,
+	// 		controllerAs 
+	// 	};	
+	// });
 
-	_module.directive('userSettings', function() {
+	// _module.directive('userSettings', function() {
 		
-		const restrict = 'E';
-		const template = require('./settings.user.html');
-		const controller = ['User', function(User) {
-			User.loggedInUser.then((user) => {
-				this.me = user;
-			});
-			this.save = () => {
-				// get loggedInUser
-				this.me.put().then(() => {
-					this.alert = { class: 'alert-success', msg: 'Saved.'};
-				});
-			};
-		}];
-		const controllerAs = 'usCtrl';
+	// 	const restrict = 'E';
+	// 	const template = require('./settings.user.html');
+	// 	const controller = ['User', function(User) {
+	// 		User.loggedInUser.then((user) => {
+	// 			this.me = user;
+	// 		});
+	// 		this.save = () => {
+	// 			// get loggedInUser
+	// 			this.me.put().then(() => {
+	// 				this.alert = { class: 'alert-success', msg: 'Saved.'};
+	// 			});
+	// 		};
+	// 	}];
+	// 	const controllerAs = 'usCtrl';
 		
-		return {
-			restrict,
-			template,
-			controller,
-			controllerAs 
-		};	
-	});
+	// 	return {
+	// 		restrict,
+	// 		template,
+	// 		controller,
+	// 		controllerAs 
+	// 	};	
+	// });
 };

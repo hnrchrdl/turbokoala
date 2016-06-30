@@ -3,8 +3,8 @@ module.exports = function(_module) {
 		
 		const restrict = 'E';
 		const template = require('./app.html');
-		const controller = ['$scope', '$timeout', 'Mpd', 'Stream', '$state', 'User', 
-			function ($scope, $timeout, Mpd, Stream, $state, User) {
+		const controller = ['$scope', '$timeout', '$window', 'Mpd', 'Stream', '$state', 'User', 
+			function ($scope, $timeout, $window, Mpd, Stream, $state, User) {
 			
 			this.showNav = false;
 
@@ -48,6 +48,10 @@ module.exports = function(_module) {
 					this.showNav = true;
 				}, 0);
 			});
+
+			this.logout = () => {
+				$window.location = '/logout';
+			}
 
 
 			// close connection when scope gets detroyed
