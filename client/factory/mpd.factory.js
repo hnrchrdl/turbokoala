@@ -39,8 +39,6 @@ module.exports = function(_module) {
 
 			playlist: {},
 
-			errors: [],
-
 			connect: (connection) => {
 
 				
@@ -73,10 +71,14 @@ module.exports = function(_module) {
 							
 							if(err) {
 								// Error.
-								return this.$$service.errors.push(err);
+								$rootScope.$broadcast('mpd:error', err);
+								return;
 							}
 
 							// Successfully connected to mpd!
+							$rootScope.$broadcast('mpd:success', 'Connected to MPD');
+
+
 							this.$$service.isConnected = true;
 
 							this.client.emit('system', 'player'); // Emit mpd player event.
@@ -84,14 +86,17 @@ module.exports = function(_module) {
 							
 							// Resolving promise.
 							this.whenConnected.resolve();
-						})
+						});
 					});
 				});
 
 				// client error events
-			  	this.client.on('error', (err) => {
-					window.console.error('\n\n# CLIENT:ERROR\n', err);
-					this.$$service.errors.push(err);
+				$timeout(() => {
+				  	this.client.on('error', (err) => {
+				  		let parsedErr = err.split(':');
+						let message = `${parsedErr[0]}\n${parsedErr[1]}:${parsedErr[2]}`;
+				  		$rootScope.$broadcast('mpd:error', err);
+					});
 				});
 			  	
 			  	// client system events
@@ -253,10 +258,10 @@ module.exports = function(_module) {
 				};
 
 				let added = [];
-
 				let addSongsRecursive = (songs) => {
 
 					if(songs.length === 0) {
+						$rootScope.$broadcast('mpd:success', `${add.length} song${added.length > 1 ? 's' : ''} added to playlist.`);
 						return complete.resolve(added);
 					}
 
@@ -310,10 +315,9 @@ module.exports = function(_module) {
 						if(cb) { cb(err, null); }
 					});
 				}
-				catch(exception) {
-					// mpd error. reconnect
-					window.console.error('\n\n#CLIENT:EXCEPTION\n\n', exception.toString());
-					this.$$service.connect();
+				catch(err) {
+					// mpd error while executing command
+					$rootScope.$broadcast('mpd:error', err);
 				}
 			}
 		};

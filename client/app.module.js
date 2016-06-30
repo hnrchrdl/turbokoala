@@ -5,6 +5,7 @@ const module = angular.module('app', ['ui.router', 'restangular', 'ngAnimate', '
 require('client/component/login/login.controller')(module);
 
 /******** components *********************************************/
+require('client/component/alert/alert.directive.js')(module);
 require('client/component/artist/artist.directive.js')(module);
 require('client/component/lastfm/image.directive.js')(module);
 require('client/component/app/app.directive.js')(module);

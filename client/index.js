@@ -14,7 +14,3 @@ require('angular-sanitize');
 require('client/app.module.js')
 
 angular.bootstrap(document, ['app']);
-
-// $('body').tooltip({
-//     selector: '[data-toggle="tooltip"]'
-// });
