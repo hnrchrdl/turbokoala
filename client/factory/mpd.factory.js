@@ -203,7 +203,7 @@ module.exports = function(_module) {
 						let resultArr = mpd.parseArrayMessage(response);
 						
 						if(_.isArray(resultArr) && resultArr.length > 0 && !_.isEmpty(resultArr[0])) {
-							results.resolve(_.groupBy(resultArr, 'Album'));
+							results.resolve(_.groupBy(resultArr, type));
 						} else {
 							results.resolve(null);
 						}
@@ -237,6 +237,49 @@ module.exports = function(_module) {
 
 				
 			},
+
+			addToPlaylist: (songs) => {
+				
+				let complete = $q.defer();
+
+				let addSong = (song) => {
+					let defer = $q.defer();
+					let file = song.file;
+					this.$$service.exec('findadd', ['file', file], (err, response) => {
+						if(err) return defer.reject();
+						return defer.resolve(response);
+					});
+					return defer.promise;
+				};
+
+				let added = [];
+
+				let addSongsRecursive = (songs) => {
+
+					if(songs.length === 0) {
+						return complete.resolve(added);
+					}
+
+					let song = songs.pop();
+					
+					addSong(song).then(() => {
+						added.push(song);
+						return addSongsRecursive(songs);
+					}, () => {
+						// something failed. keep going anyways
+						return addSongsRecursive(songs);
+					});
+				};
+
+				songs = Array.isArray(songs) ? songs : [songs];
+				songs.reverse();
+
+				addSongsRecursive(songs);
+
+				return complete.promise;
+			},
+
+
 
 			exec: (cmdName, args, cb) => {
 				//convert args to array if it is not already an array
