@@ -71443,11 +71443,8 @@
 			this.$$service = {
 
 				isConnected: false,
-
 				currentsong: {},
-
 				status: {},
-
 				playlist: {},
 
 				connect: function connect(connection) {
@@ -71481,6 +71478,7 @@
 
 								if (err) {
 									// Error.
+									window.console.error(err);
 									$rootScope.$broadcast('mpd:error', err);
 									return;
 								}
@@ -71502,8 +71500,7 @@
 					// client error events
 					$timeout(function () {
 						_this.client.on('error', function (err) {
-							var parsedErr = err.split(':');
-							var message = parsedErr[0] + '\n' + parsedErr[1] + ':' + parsedErr[2];
+							window.console.error(err);
 							$rootScope.$broadcast('mpd:error', err);
 						});
 					});
@@ -71533,34 +71530,6 @@
 						_this.client.sendCommand('close', []);
 						_this.$$service.isConnected = false;
 					}
-				},
-
-				test: function test(connection) {
-
-					var whenConnected = $q.defer();
-
-					var testclient = mpd.connect(connection);
-					// client ready event
-					testclient.once('ready', function () {
-						var pw = connection.pw;
-
-						_this.client.sendCommand(cmd('password', [pw]), function (err, response) {
-
-							// close connection right away
-							testclient.sendCommand('close', []);
-
-							$timeout(function () {
-								if (err) {
-									// Error.
-									return whenConnected.reject();
-								}
-								// Resolving promise.
-								return whenConnected.resolve();
-							});
-						});
-					});
-
-					return whenConnected.promise;
 				},
 
 				updateStatus: function updateStatus() {

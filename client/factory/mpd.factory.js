@@ -32,16 +32,11 @@ module.exports = function(_module) {
 		this.$$service = {
 			
 			isConnected: false,
-
 			currentsong: {},
-
 			status: {},
-
 			playlist: {},
 
 			connect: (connection) => {
-
-				
 
 				connection = connection || lastConnection;
 				lastConnection = connection;
@@ -71,6 +66,7 @@ module.exports = function(_module) {
 							
 							if(err) {
 								// Error.
+								window.console.error(err)
 								$rootScope.$broadcast('mpd:error', err);
 								return;
 							}
@@ -93,8 +89,7 @@ module.exports = function(_module) {
 				// client error events
 				$timeout(() => {
 				  	this.client.on('error', (err) => {
-				  		let parsedErr = err.split(':');
-						let message = `${parsedErr[0]}\n${parsedErr[1]}:${parsedErr[2]}`;
+				  		window.console.error(err)
 				  		$rootScope.$broadcast('mpd:error', err);
 					});
 				});
@@ -127,34 +122,6 @@ module.exports = function(_module) {
 					this.client.sendCommand('close', []);
 					this.$$service.isConnected = false;
 				}
-			},
-
-			test: (connection) => {
-				
-				let whenConnected = $q.defer();
-				
-				let testclient = mpd.connect(connection);
-				// client ready event
-				testclient.once('ready', () => {
-					
-					let { pw } = connection;
-					this.client.sendCommand(cmd('password', [pw]), (err, response) => {
-						
-						// close connection right away
-						testclient.sendCommand('close', []);
-						
-						$timeout(() => {
-							if(err) {
-								// Error.
-								return whenConnected.reject();
-							}
-							// Resolving promise.
-							return whenConnected.resolve();							
-						});
-					});
-				});
-
-				return whenConnected.promise;
 			},
 
 			updateStatus: () => {
