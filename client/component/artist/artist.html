@@ -6,8 +6,6 @@
 			<ul class="list-inline">
 				<li ng-repeat="tag in artistCtrl.artistinfo.artist.tags.tag track by $index">{{tag.name}}</li>
 			</ul>
-			
-
 			<div class="bio">
 				<small><span class="bio" ng-bind-html="artistCtrl.artistinfo.artist.bio.summary"></span></small>
 			</div>
@@ -59,12 +57,15 @@
 
 	<div class="row similar" ng-if="artistCtrl.categoryToShow==='similar'">
 		<div class="col-xs-4 col-sm-4 col-md-3 col-lg-2 artist"
-				ng-repeat="artist in artistCtrl.similar.similarartists.artist">
+				ng-repeat="artist in artistCtrl.similar.similarartists.artist | limitTo: artistCtrl.similarLimit">
 			<div lastfm-image images="artist.image" size="2" hover="true" ui-sref="app.artist({ artist: artist.name })">
 				<div class="inner">
 					{{artist.name}}
 				</div>
 			</div>
 		</div>
+		<div class="clearfix">
+		</div>
+		<button class="btn btn.default" ng-show="artistCtrl.similar.similarartists.artist.length > artistCtrl.similarLimit" ng-click="artistCtrl.raiseSimilarLimit()">Show some more...</button>
 	</div>
 </div>

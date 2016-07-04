@@ -66,7 +66,6 @@ module.exports = function(_module) {
 							
 							if(err) {
 								// Error.
-								window.console.error(err)
 								$rootScope.$broadcast('mpd:error', err);
 								return;
 							}
@@ -89,7 +88,6 @@ module.exports = function(_module) {
 				// client error events
 				$timeout(() => {
 				  	this.client.on('error', (err) => {
-				  		window.console.error(err)
 				  		$rootScope.$broadcast('mpd:error', err);
 					});
 				});

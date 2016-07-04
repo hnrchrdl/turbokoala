@@ -70421,6 +70421,11 @@
 
 				this.artist = $stateParams.artist;
 				this.categoryToShow = 'albums';
+				this.similarLimit = 10;
+
+				this.raiseSimilarLimit = function () {
+					_this.similarLimit += 10;
+				};
 
 				Mpd.getAllAlbumsOfArtist(this.artist).then(function (albums) {
 					_this.albums = albums;
@@ -70431,6 +70436,7 @@
 				});
 
 				LastFm.getSimilarArtists(this.artist).then(function (response) {
+					window.console.log(response);
 					_this.similar = response.data;
 				});
 
@@ -70469,7 +70475,7 @@
 /* 143 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"container artist-details\">\t\n\t<div class=\"row clearfix\">\n\t\t<div class=\"col-xs-12 col-sm-8 col-sm-push-4 col-md-9 col-md-push-3\">\n\t\t\t<!-- <img class=\"img img-responsive\" ng-src=\"{{artistCtrl.artistinfo.artist.image[2]['#text']}}\" /> -->\t\t\t\t\n\t\t\t<h1>{{artistCtrl.artist}}</h1>\n\t\t\t<ul class=\"list-inline\">\n\t\t\t\t<li ng-repeat=\"tag in artistCtrl.artistinfo.artist.tags.tag track by $index\">{{tag.name}}</li>\n\t\t\t</ul>\n\t\t\t\n\n\t\t\t<div class=\"bio\">\n\t\t\t\t<small><span class=\"bio\" ng-bind-html=\"artistCtrl.artistinfo.artist.bio.summary\"></span></small>\n\t\t\t</div>\n\t\t</div>\n\t\t<div class=\"col-xs-12 col-sm-4 col-sm-pull-8 col-md-3 col-md-pull-9\">\n\t\t\t<img class=\"img img-responsive albumcover\" lastfm-image artist=\"artistCtrl.artist\" is-img-tag=\"true\" size=\"3\">\n\t\t</div>\n\t</div>\n\t<hr>\n\t<div class=\"btn-group\">\n\t\t<button class=\"btn btn-default\" \n\t\t\t\tng-click=\"artistCtrl.categoryToShow='albums'\" ng-class=\"{ active: artistCtrl.categoryToShow==='albums' }\">\n\t\t\tAlbums ({{artistCtrl.countAlbums()}})\n\t\t</button>\n\t\t<button class=\"btn btn-default\"\n\t\t\t\tng-click=\"artistCtrl.categoryToShow='similar'\"\n\t\t\t\tng-class=\"{ active: artistCtrl.categoryToShow==='similar' }\">\n\t\t\tSimilar Artists\n\t\t</button>\n\t</div>\n\t<div class=\"album row\" \n\t\t\tng-repeat=\"(name, songs) in artistCtrl.albums\"\n\t\t\tng-show=\"artistCtrl.categoryToShow==='albums'\">\n\t\t<div class=\"col-xs-12\">\n\t\t\t<h3>{{name}} <small>{{songs[0].Date}}</small></h3>\n\t\t</div>\n\t\t<div class=\"col-xs-12 col-sm-4 col-md-3 col-lg-3 left\">\n\t\t\t<img class=\"img img-responsive albumcover\" lastfm-image artist=\"artistCtrl.artist\" album=\"name\" is-img-tag=\"true\" size=\"3\">\n\t\t\t<div class=\"albumcontrols\">\n\t\t\t\t<button class=\"btn btn-primary btn-sm btn-block\"\">\n\t\t\t\t\t<i class=\"fa fa-play\"></i>\n\t\t\t\t\tPlay\n\t\t\t\t</button>\n\t\t\t\t<button class=\"btn btn-default btn-sm btn-block\" ng-click=\"artistCtrl.addToPlaylist(songs)\">\n\t\t\t\t\t<i class=\"fa fa-plus\"></i>\n\t\t\t\t\tAdd\n\t\t\t\t</button>\n\t\t\t</div>\n\t\t</div>\n\t\t<div class=\"col-xs-12 col-sm-8 col-md-9 col-lg-9\">\n\t\t\t<song-table songs=\"songs\" options=\"artistCtrl.albumoptions\"></song-table>\n\t\t</div>\n\t</div>\n\t<div class=\"album row\" ng-show=\"artistCtrl.categoryToShow==='albums' && !artistCtrl.albums\">\n\t\t<div class=\"col-lg-12\">\n\t\t\tNo albums in database.\n\t\t</div>\n\t</div>\n\n\t<div class=\"row similar\" ng-if=\"artistCtrl.categoryToShow==='similar'\">\n\t\t<div class=\"col-xs-4 col-sm-4 col-md-3 col-lg-2 artist\"\n\t\t\t\tng-repeat=\"artist in artistCtrl.similar.similarartists.artist\">\n\t\t\t<div lastfm-image images=\"artist.image\" size=\"2\" hover=\"true\" ui-sref=\"app.artist({ artist: artist.name })\">\n\t\t\t\t<div class=\"inner\">\n\t\t\t\t\t{{artist.name}}\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</div>";
+	module.exports = "<div class=\"container artist-details\">\t\n\t<div class=\"row clearfix\">\n\t\t<div class=\"col-xs-12 col-sm-8 col-sm-push-4 col-md-9 col-md-push-3\">\n\t\t\t<!-- <img class=\"img img-responsive\" ng-src=\"{{artistCtrl.artistinfo.artist.image[2]['#text']}}\" /> -->\t\t\t\t\n\t\t\t<h1>{{artistCtrl.artist}}</h1>\n\t\t\t<ul class=\"list-inline\">\n\t\t\t\t<li ng-repeat=\"tag in artistCtrl.artistinfo.artist.tags.tag track by $index\">{{tag.name}}</li>\n\t\t\t</ul>\n\t\t\t<div class=\"bio\">\n\t\t\t\t<small><span class=\"bio\" ng-bind-html=\"artistCtrl.artistinfo.artist.bio.summary\"></span></small>\n\t\t\t</div>\n\t\t</div>\n\t\t<div class=\"col-xs-12 col-sm-4 col-sm-pull-8 col-md-3 col-md-pull-9\">\n\t\t\t<img class=\"img img-responsive albumcover\" lastfm-image artist=\"artistCtrl.artist\" is-img-tag=\"true\" size=\"3\">\n\t\t</div>\n\t</div>\n\t<hr>\n\t<div class=\"btn-group\">\n\t\t<button class=\"btn btn-default\" \n\t\t\t\tng-click=\"artistCtrl.categoryToShow='albums'\" ng-class=\"{ active: artistCtrl.categoryToShow==='albums' }\">\n\t\t\tAlbums ({{artistCtrl.countAlbums()}})\n\t\t</button>\n\t\t<button class=\"btn btn-default\"\n\t\t\t\tng-click=\"artistCtrl.categoryToShow='similar'\"\n\t\t\t\tng-class=\"{ active: artistCtrl.categoryToShow==='similar' }\">\n\t\t\tSimilar Artists\n\t\t</button>\n\t</div>\n\t<div class=\"album row\" \n\t\t\tng-repeat=\"(name, songs) in artistCtrl.albums\"\n\t\t\tng-show=\"artistCtrl.categoryToShow==='albums'\">\n\t\t<div class=\"col-xs-12\">\n\t\t\t<h3>{{name}} <small>{{songs[0].Date}}</small></h3>\n\t\t</div>\n\t\t<div class=\"col-xs-12 col-sm-4 col-md-3 col-lg-3 left\">\n\t\t\t<img class=\"img img-responsive albumcover\" lastfm-image artist=\"artistCtrl.artist\" album=\"name\" is-img-tag=\"true\" size=\"3\">\n\t\t\t<div class=\"albumcontrols\">\n\t\t\t\t<button class=\"btn btn-primary btn-sm btn-block\"\">\n\t\t\t\t\t<i class=\"fa fa-play\"></i>\n\t\t\t\t\tPlay\n\t\t\t\t</button>\n\t\t\t\t<button class=\"btn btn-default btn-sm btn-block\" ng-click=\"artistCtrl.addToPlaylist(songs)\">\n\t\t\t\t\t<i class=\"fa fa-plus\"></i>\n\t\t\t\t\tAdd\n\t\t\t\t</button>\n\t\t\t</div>\n\t\t</div>\n\t\t<div class=\"col-xs-12 col-sm-8 col-md-9 col-lg-9\">\n\t\t\t<song-table songs=\"songs\" options=\"artistCtrl.albumoptions\"></song-table>\n\t\t</div>\n\t</div>\n\t<div class=\"album row\" ng-show=\"artistCtrl.categoryToShow==='albums' && !artistCtrl.albums\">\n\t\t<div class=\"col-lg-12\">\n\t\t\tNo albums in database.\n\t\t</div>\n\t</div>\n\n\t<div class=\"row similar\" ng-if=\"artistCtrl.categoryToShow==='similar'\">\n\t\t<div class=\"col-xs-4 col-sm-4 col-md-3 col-lg-2 artist\"\n\t\t\t\tng-repeat=\"artist in artistCtrl.similar.similarartists.artist | limitTo: artistCtrl.similarLimit\">\n\t\t\t<div lastfm-image images=\"artist.image\" size=\"2\" hover=\"true\" ui-sref=\"app.artist({ artist: artist.name })\">\n\t\t\t\t<div class=\"inner\">\n\t\t\t\t\t{{artist.name}}\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t\t<div class=\"clearfix\">\n\t\t</div>\n\t\t<button class=\"btn btn.default\" ng-show=\"artistCtrl.similar.similarartists.artist.length > artistCtrl.similarLimit\" ng-click=\"artistCtrl.raiseSimilarLimit()\">Show some more...</button>\n\t</div>\n</div>";
 
 /***/ },
 /* 144 */
@@ -71478,7 +71484,6 @@
 
 								if (err) {
 									// Error.
-									window.console.error(err);
 									$rootScope.$broadcast('mpd:error', err);
 									return;
 								}
@@ -71500,7 +71505,6 @@
 					// client error events
 					$timeout(function () {
 						_this.client.on('error', function (err) {
-							window.console.error(err);
 							$rootScope.$broadcast('mpd:error', err);
 						});
 					});

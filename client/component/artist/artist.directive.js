@@ -7,6 +7,11 @@ module.exports = (_module) => {
 		 	
 		 	this.artist = $stateParams.artist;
 		 	this.categoryToShow = 'albums';
+		 	this.similarLimit = 10;
+
+		 	this.raiseSimilarLimit = () => {
+				this.similarLimit += 10;		 		
+		 	}
 
 		 	Mpd.getAllAlbumsOfArtist(this.artist).then((albums) => {
 		 		this.albums = albums;
@@ -17,6 +22,7 @@ module.exports = (_module) => {
 		 	});
 
 		 	LastFm.getSimilarArtists(this.artist).then((response) => {
+		 		window.console.log(response)
 		 		this.similar = response.data;
 		 	});
 
