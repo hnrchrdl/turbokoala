@@ -23,6 +23,10 @@ module.exports = function(_module) {
 	        url: 'queue',
 	        template: '<queue></queue>',
 	    })
+	    .state('app.playlists', {
+	        url: 'playlists',
+	        template: '<playlists></playlists>',
+	    })
 	    .state('app.search', {
 	        url: 'search/:input',
 	        template: '<search></search>',

@@ -1,0 +1,93 @@
+<div class="container-fluid playlists">
+	<div class="subhead">
+		<button class="btn btn-default"
+				ng-click="playlistsCtrl.changeMode('stored')"
+				ng-class="{ active: playlistsCtrl.mode==='stored' }"
+		>
+			Stored Playlists
+		</button>
+		<button class="btn btn-default"
+				ng-click="playlistsCtrl.changeMode('dynamic')"
+				ng-class="{ active: playlistsCtrl.mode==='dynamic' }"
+		>
+			Dynamic Playlists
+		</button>
+	</div>
+	
+	<hr>
+
+	<div class="row stored" ng-if="playlistsCtrl.mode === 'stored'">
+		<div class="col-xs-3">
+			<div class="playlist-toggler" ng-repeat="playlist in playlistsCtrl.storedPlaylists | orderBy:['playlist'] " ng-click="playlistsCtrl.loadPlaylist(playlist.playlist)" ng-class="{ active: playlistsCtrl.activePlaylist === playlist.playlist }">
+				<small>{{playlist.playlist}}
+				<small><span class="muted">{{playlist['Last-Modified'] | date }}</span></small>
+				</small>
+			</div>
+		</div>
+
+		<div class="col-xs-9" ng-if="playlistsCtrl.activePlaylist">
+			<div class="playlist-content">
+				<div class="btn-group pull-right">
+					<button class="btn btn-primary" ng-click="playlistCtrl.playPlaylist(playlistsCtrl.activePlaylist)">
+						<i class="fa fa-play"></i>
+						Play
+					</button>
+					<button class="btn btn-default" ng-click="playlistCtrl.addPlaylistToQueue(playlistsCtrl.activePlaylist)">
+						<i class="fa fa-plus"></i>
+						Add
+					</button>
+				</div>
+				<h4>{{playlistsCtrl.activePlaylist}}</h4>
+				<div class="clearfix"></div>
+				<hr>
+				<song-table songs="playlistsCtrl.playlist" options="playlistsCtrl.songTableOptions"></song-table>
+			</div>
+		</div>
+	</div>
+
+	<div class="dynamic" ng-if="playlistsCtrl.mode === 'dynamic'">
+		<div class="col-xs-3">
+			<form class="form" ng-submit="playlistsCtrl.createDynamicPlaylist()">
+				<div class="form-group">
+					<label>Artist</label>
+					<input type="text" name="" class="form-control" ng-model="playlistsCtrl.artistName" placeholder="Name of Artist">
+				</div>
+				<div class="form-group">
+					<label>Number of songs</label>
+					<select class="form-control" ng-model="playlistsCtrl.numberOfSongs">
+						<option value="5">5</option>
+						<option value="10">10</option>
+						<option value="20">20</option>
+						<option value="30">30</option>
+						<option value="50" selected>50</option>
+						<option value="100">100</option>
+						<option value="200">200</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<button class="btn btn-primary btn-block" ng-submit>
+						Generate Playlist
+					</button>
+				</div>
+			</form>
+		</div>
+		<div class="col-xs-9" ng-if="playlistsCtrl.dynamicPlaylist">
+			<div class="playlist-content">
+				<div class="btn-group pull-right">
+					<button class="btn btn-primary" ng-click="playlistCtrl.playPlaylist(playlistsCtrl.dynamicPlaylist)">
+						<i class="fa fa-play"></i>
+						Play
+					</button>
+					<button class="btn btn-default" ng-click="playlistCtrl.addPlaylistToQueue(playlistsCtrl.dynamicPlaylist)">
+						<i class="fa fa-plus"></i>
+						Add
+					</button>
+				</div>
+				<h4>New dynamic playlist</h4>
+				<div class="clearfix"></div>
+				<hr>
+				<song-table songs="playlistsCtrl.dynamicPlaylist" options="playlistsCtrl.songTableOptions"></song-table>
+			</div>
+		</div>
+	</div>
+</div>

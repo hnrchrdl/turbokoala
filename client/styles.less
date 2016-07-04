@@ -11,6 +11,10 @@
 @table-bg-hover:                fadeout(@gray, 80%);
 @table-bg-active:               fadeout(@table-bg-hover, 80%);
 
+.muted {
+	color: fadeout(@text-color, 80%);
+}
+
 
 // input
 @input-bg:						transparent;
@@ -25,6 +29,7 @@
 @import "./component/controls/controls.less";
 @import "./component/navbar/navbar.less";
 @import "./component/nowplaying/nowplaying.less";
+@import "./component/playlists/playlists.less";
 @import "./component/queue/queue.less";
 @import "./component/search/search.less";
 @import "./component/settings/settings.less";

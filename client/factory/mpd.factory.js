@@ -28,6 +28,10 @@ module.exports = function(_module) {
 			this.$$service.updatePlaylist();
 		});
 
+		this.events.set('stored_playlist', () => {
+			this.$$service.updatePlaylists();
+		});
+
 
 		this.$$service = {
 			
@@ -35,6 +39,7 @@ module.exports = function(_module) {
 			currentsong: {},
 			status: {},
 			playlist: {},
+			playlists: [],
 
 			connect: (connection) => {
 
@@ -78,6 +83,7 @@ module.exports = function(_module) {
 
 							this.client.emit('system', 'player'); // Emit mpd player event.
 							this.client.emit('system', 'playlist'); // Emit mpd playlist event.
+							this.client.emit('system', 'stored_playlist'); // Emit mpd stored_playlist event.
 							
 							// Resolving promise.
 							this.whenConnected.resolve();
@@ -157,6 +163,35 @@ module.exports = function(_module) {
 				});
 			},
 
+			updatePlaylists: () => {
+				this.whenConnected.promise.then(() => {
+					// send playlist command
+					this.client.sendCommand('listplaylists', (err, response) => {
+						if(err) { this.$$service.playlist = []; }
+						$timeout(() => {
+							// parse response
+							this.$$service.playlists = mpd.parseArrayMessage(response);
+						});
+					});
+				});
+			},
+
+
+			getPlaylistByName: (playlistname) => {
+				
+				return this.whenConnected.promise.then(() => {
+					let results = $q.defer();
+					this.$$service.exec('listplaylistinfo', [playlistname], function(err, response) {
+						if(err) results.reject(err);
+
+						let resultArr = mpd.parseArrayMessage(response);
+						results.resolve(resultArr);
+					});
+					return results.promise;
+				});
+			},
+
+
 			search: (type, what) => {
 				
 				type = type || 'any';
@@ -180,9 +215,8 @@ module.exports = function(_module) {
 					});
 					return results.promise;
 				});
-				
-				
 			},
+
 
 			getAllAlbumsOfArtist: (artistname) => {
 
@@ -204,8 +238,6 @@ module.exports = function(_module) {
 					});
 					return results.promise;
 				});
-
-				
 			},
 
 			addToPlaylist: (songs) => {

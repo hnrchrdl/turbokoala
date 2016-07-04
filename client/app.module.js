@@ -13,15 +13,18 @@ require('client/component/controls/controls.directive.js')(module);
 require('client/component/mpd/mpd.directive.js')(module);
 require('client/component/navbar/navbar.directive.js')(module);
 require('client/component/nowplaying/nowplaying.directive.js')(module);
+require('client/component/playlists/playlists.directive.js')(module);
 require('client/component/queue/queue.directive.js')(module);
 require('client/component/search/search.directive.js')(module);
 require('client/component/settings/settings.directive.js')(module);
 require('client/component/songtable/songtable.directive.js')(module);
 
 /******** factories *********************************************/
+require('client/factory/common.factory')(module);
 require('client/factory/favs.factory')(module);
 require('client/factory/lastfm.factory')(module);
 require('client/factory/mpd.factory')(module);
+require('client/factory/playlist.factory')(module);
 require('client/factory/settings.factory')(module);
 require('client/factory/stream.factory')(module);
 require('client/factory/user.factory')(module);
