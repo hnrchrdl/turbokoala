@@ -1,0 +1,7 @@
+{
+	"lastfm": {
+		"api_key": "last_fm_api_key",
+		"secret": "last_fm_api_secret",
+		"useragent": "last_fm_user_agent"
+	}
+}
