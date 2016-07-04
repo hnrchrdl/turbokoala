@@ -9,7 +9,6 @@ module.exports = function(_module) {
 			
 			$scope.$watchCollection(() => { return Mpd.playlist; }, (playlist) => {
 				this.playlist = playlist;
-				window.console.log(this.playlist)
 			});
 
 		}];
